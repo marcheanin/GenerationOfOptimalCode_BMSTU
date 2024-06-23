@@ -1,0 +1,61 @@
+
+bb #0 entry
+		preds: 
+		succs: bb #1 loop_cond 
+		dominatedBy: 
+	a_0 = 3
+	b_0 = 0
+	i_0 = 1
+	branch to: bb #1 loop_cond
+
+bb #1 loop_cond
+		preds: bb #0 entry bb #2 loop_body 
+		succs: bb #2 loop_body bb #3 loop_cont 
+		dominatedBy: bb #0 entry
+	i_1 = [i_0 bb #0 entry; i_2 bb #2 loop_body; ]
+	a_1 = [a_0 bb #0 entry; a_2 bb #2 loop_body; ]
+	branch on: b_0 - i_1 to: bb #2 loop_body or: bb #3 loop_cont
+
+bb #2 loop_body
+		preds: bb #1 loop_cond 
+		succs: bb #1 loop_cond 
+		dominatedBy: bb #1 loop_cond
+	a_2 = a_1 + 3
+	i_2 = i_1 + 1
+	branch to: bb #1 loop_cond
+
+bb #3 loop_cont
+		preds: bb #1 loop_cond 
+		succs: bb #5 else bb #4 then 
+		dominatedBy: bb #1 loop_cond
+	branch on: b_0 to: bb #5 else or: bb #4 then
+
+bb #4 then
+		preds: bb #3 loop_cont 
+		succs: bb #6 if_cont  
+		dominatedBy: bb #3 loop_cont
+	a_3 = a_1 - 2
+	branch to: bb #6 if_cont
+
+bb #5 else
+		preds: bb #3 loop_cont 
+		succs: bb #6 if_cont 
+		dominatedBy: bb #3 loop_cont
+	a_4 = 0
+	branch to: bb #6 if_cont
+
+bb #6 if_cont
+		preds: bb #4 then bb #5 else 
+		succs: 
+		dominatedBy: bb #3 loop_cont
+	a_5 = [a_3 bb #4 then; a_4 bb #5 else; ]
+digraph G {
+	"bb #0 entry" -> "bb #1 loop_cond"
+	"bb #1 loop_cond" -> "bb #2 loop_body"
+	"bb #1 loop_cond" -> "bb #3 loop_cont"
+	"bb #2 loop_body" -> "bb #1 loop_cond"
+	"bb #3 loop_cont" -> "bb #5 else"
+	"bb #3 loop_cont" -> "bb #4 then"
+	"bb #4 then" -> "bb #6 if_cont"
+	"bb #5 else" -> "bb #6 if_cont"
+}

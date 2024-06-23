@@ -1,0 +1,17 @@
+main(a, b) {
+    c = 4 + a - b
+    if (c){    
+        tmp = a
+        a = a - 1
+    }
+    else{ 
+        tmp = b
+        b = a - 2
+    }
+    for(i = 5 , i , i = i - 1){
+        b = b - 1
+        a = a + b
+    }
+    c = a + b
+    return 3 + c
+}
